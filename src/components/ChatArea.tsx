@@ -179,6 +179,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
     }
   };
 
+
   return (
     <div className="flex-1 flex flex-col h-screen bg-[#2f3136]">
       {/* Slim channel header */}
