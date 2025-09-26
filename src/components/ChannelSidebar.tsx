@@ -1,7 +1,8 @@
-import { Hash, Heart, MessageCircle, Utensils, GraduationCap, Monitor, Building, Users, Globe } from "lucide-react";
+import { Hash, Heart, MessageCircle, Utensils, GraduationCap, Monitor, Building, Users, Globe, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 interface Channel {
   id: string;
@@ -106,9 +107,10 @@ const categories: Category[] = [
 interface ChannelSidebarProps {
   selectedChannel: string;
   onChannelSelect: (channelId: string) => void;
+  onClose?: () => void;
 }
 
-export default function ChannelSidebar({ selectedChannel, onChannelSelect }: ChannelSidebarProps) {
+export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClose }: ChannelSidebarProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedSubChannel, setSelectedSubChannel] = useState<string>("");
 
@@ -131,10 +133,24 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect }: Cha
     return category ? category.channels : [];
   };
   return (
-    <div className="w-72 bg-sidebar border-r border-sidebar-border h-screen flex flex-col relative z-50 overflow-hidden">
+    <div className="w-72 bg-sidebar border-r border-sidebar-border h-screen flex flex-col relative z-50 overflow-hidden mobile-safe-top mobile-safe-bottom">
       <div className="p-6 border-b border-sidebar-border">
-        <h1 className="text-2xl font-bold text-sidebar-foreground">BITS Whispers</h1>
-        <p className="text-sm text-muted-foreground mt-1">Anonymous & Ephemeral</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-sidebar-foreground">BITS Whispers</h1>
+            <p className="text-sm text-muted-foreground mt-1">Anonymous & Ephemeral</p>
+          </div>
+          {onClose && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="lg:hidden text-sidebar-foreground hover:bg-sidebar-accent"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="flex-1 p-4 space-y-6 overflow-y-auto scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent">
@@ -183,10 +199,10 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect }: Cha
             <div>
               <label className="text-xs text-muted-foreground mb-2 block">Select Category</label>
               <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80">
+                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground">
                   <SelectValue placeholder="Choose a category..." />
                 </SelectTrigger>
-                <SelectContent className="bg-sidebar border-sidebar-border">
+                <SelectContent className="bg-sidebar border-sidebar-border z-[80]" position="popper" side="bottom" align="start" container={document.body}>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
                       <div className="flex items-center space-x-2">
@@ -204,10 +220,10 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect }: Cha
               <div>
                 <label className="text-xs text-muted-foreground mb-2 block">Select Channel</label>
                 <Select value={selectedSubChannel} onValueChange={handleSubChannelChange}>
-                  <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80">
+                  <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground">
                     <SelectValue placeholder="Choose a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-sidebar border-sidebar-border max-h-60">
+                  <SelectContent className="bg-sidebar border-sidebar-border max-h-60 z-[80]" position="popper" side="bottom" align="start" container={document.body}>
                     {getCurrentChannels().map((channel) => (
                       <SelectItem key={channel.id} value={channel.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
                         <div className="flex items-center space-x-2">

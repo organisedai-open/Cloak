@@ -106,6 +106,45 @@ const channelDescriptions = {
   dmess: "D Mess discussions",
 };
 
+// Function to format channel names properly
+const formatChannelName = (channelId: string): string => {
+  // Handle special cases and acronyms
+  const specialCases: { [key: string]: string } = {
+    'general': 'General',
+    'confessions': 'Confessions', 
+    'support': 'Support',
+    'subspot': 'Subspot',
+    'fk': 'FK',
+    'ins': 'INS',
+    'gajalaxmi': 'Gajalaxmi',
+    'foodtruck': 'Food Truck',
+    'lt1': 'LT1',
+    'lt2': 'LT2', 
+    'lt3': 'LT3',
+    'lt4': 'LT4',
+    'dlt1': 'DLT1',
+    'dlt2': 'DLT2',
+    'dlt3': 'DLT3',
+    'dlt4': 'DLT4',
+    'dlt5': 'DLT5',
+    'dlt6': 'DLT6',
+    'dlt7': 'DLT7',
+    'dlt8': 'DLT8',
+    'library': 'Library',
+    'auditorium': 'Auditorium',
+    'sac': 'SAC',
+    'gym': 'Gym',
+    'amess': 'A Mess',
+    'cmess': 'C Mess',
+    'dmess': 'D Mess'
+  };
+
+  return specialCases[channelId] || channelId
+    .split(/(?=[A-Z])/) // Split on capital letters
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 export default function ChatArea({ channel, username, sessionId }: ChatAreaProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -262,7 +301,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
             <div>
               <div className="text-[15px] font-semibold text-[#dcddde] flex items-center">
                 {channelIcons[channel as keyof typeof channelIcons] || <Hash className="w-5 h-5" />}
-                <span className="ml-2"># {channel.toUpperCase()}</span>
+                <span className="ml-2">{formatChannelName(channel)}</span>
               </div>
               <div className="text-[12px] text-[#b9bbbe]">
                 {channelDescriptions[channel as keyof typeof channelDescriptions] || "Channel discussion"}

@@ -56,20 +56,21 @@ const Index = () => {
       </div>
 
       {/* Sidebar - Mobile */}
+      {sidebarOpen && (
+        <div className="lg:hidden mobile-sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
       <div className={`
-        lg:hidden fixed inset-0 z-50 transition-transform duration-300
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:hidden mobile-sidebar
+        ${sidebarOpen ? 'open' : ''}
       `}>
-        <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
-        <div className="relative">
-          <ChannelSidebar 
-            selectedChannel={selectedChannel}
-            onChannelSelect={(channel) => {
-              setSelectedChannel(channel);
-              setSidebarOpen(false);
-            }}
-          />
-        </div>
+        <ChannelSidebar 
+          selectedChannel={selectedChannel}
+          onChannelSelect={(channel) => {
+            setSelectedChannel(channel);
+            setSidebarOpen(false);
+          }}
+          onClose={() => setSidebarOpen(false)}
+        />
       </div>
 
       {/* Chat Area */}
