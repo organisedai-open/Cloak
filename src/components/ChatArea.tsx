@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Hash, Heart, MessageCircle } from "lucide-react";
+import { Hash, Heart, MessageCircle, Utensils, GraduationCap, Monitor, Building, Users, Globe } from "lucide-react";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { db } from "@/integrations/firebase/client";
@@ -34,15 +34,75 @@ interface ChatAreaProps {
 }
 
 const channelIcons = {
-  general: <Hash className="w-5 h-5" />,
+  // Original channels
+  general: <Globe className="w-5 h-5" />,
   confessions: <MessageCircle className="w-5 h-5" />,
   support: <Heart className="w-5 h-5" />,
+  // Food outlets
+  subspot: <Utensils className="w-5 h-5" />,
+  fk: <Utensils className="w-5 h-5" />,
+  ins: <Utensils className="w-5 h-5" />,
+  gajalaxmi: <Utensils className="w-5 h-5" />,
+  foodtruck: <Utensils className="w-5 h-5" />,
+  // Lecture halls
+  lt1: <GraduationCap className="w-5 h-5" />,
+  lt2: <GraduationCap className="w-5 h-5" />,
+  lt3: <GraduationCap className="w-5 h-5" />,
+  lt4: <GraduationCap className="w-5 h-5" />,
+  // Digital lecture halls
+  dlt1: <Monitor className="w-5 h-5" />,
+  dlt2: <Monitor className="w-5 h-5" />,
+  dlt3: <Monitor className="w-5 h-5" />,
+  dlt4: <Monitor className="w-5 h-5" />,
+  dlt5: <Monitor className="w-5 h-5" />,
+  dlt6: <Monitor className="w-5 h-5" />,
+  dlt7: <Monitor className="w-5 h-5" />,
+  dlt8: <Monitor className="w-5 h-5" />,
+  // Campus facilities
+  library: <Building className="w-5 h-5" />,
+  auditorium: <Building className="w-5 h-5" />,
+  sac: <Building className="w-5 h-5" />,
+  gym: <Building className="w-5 h-5" />,
+  // Mess
+  amess: <Users className="w-5 h-5" />,
+  cmess: <Users className="w-5 h-5" />,
+  dmess: <Users className="w-5 h-5" />,
 };
 
 const channelDescriptions = {
+  // Original channels
   general: "Campus-wide conversations",
   confessions: "Share your secrets anonymously",
   support: "A safe space for emotional support",
+  // Food outlets
+  subspot: "Subspot discussions",
+  fk: "FK food court",
+  ins: "INS canteen",
+  gajalaxmi: "Gajalaxmi restaurant",
+  foodtruck: "Food truck area",
+  // Lecture halls
+  lt1: "Lecture Theatre 1",
+  lt2: "Lecture Theatre 2",
+  lt3: "Lecture Theatre 3",
+  lt4: "Lecture Theatre 4",
+  // Digital lecture halls
+  dlt1: "Digital Lecture Theatre 1",
+  dlt2: "Digital Lecture Theatre 2",
+  dlt3: "Digital Lecture Theatre 3",
+  dlt4: "Digital Lecture Theatre 4",
+  dlt5: "Digital Lecture Theatre 5",
+  dlt6: "Digital Lecture Theatre 6",
+  dlt7: "Digital Lecture Theatre 7",
+  dlt8: "Digital Lecture Theatre 8",
+  // Campus facilities
+  library: "Library discussions",
+  auditorium: "Auditorium events",
+  sac: "Student Activity Center",
+  gym: "Gymnasium discussions",
+  // Mess
+  amess: "A Mess discussions",
+  cmess: "C Mess discussions",
+  dmess: "D Mess discussions",
 };
 
 export default function ChatArea({ channel, username, sessionId }: ChatAreaProps) {
@@ -198,9 +258,12 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
               </svg>
             </button>
             <div>
-              <div className="text-[15px] font-semibold text-[#dcddde] capitalize"># {channel}</div>
+              <div className="text-[15px] font-semibold text-[#dcddde] flex items-center">
+                {channelIcons[channel as keyof typeof channelIcons] || <Hash className="w-5 h-5" />}
+                <span className="ml-2"># {channel.toUpperCase()}</span>
+              </div>
               <div className="text-[12px] text-[#b9bbbe]">
-                {channelDescriptions[channel as keyof typeof channelDescriptions]}
+                {channelDescriptions[channel as keyof typeof channelDescriptions] || "Channel discussion"}
               </div>
             </div>
           </div>
