@@ -73,7 +73,7 @@ export default function Message({
                   <span className="text-xs text-[#A0A0A0]">•</span>
                   <span className="text-xs text-[#A0A0A0]">Replying to</span>
                 </div>
-                <p className="text-sm text-[#EDEDED] line-clamp-1 sm:line-clamp-2 group-hover:line-clamp-none transition-all">
+                <p className="text-sm text-[#EDEDED] line-clamp-1 sm:line-clamp-2 break-words overflow-wrap-anywhere">
                   {replyToContent.length > 80 ? replyToContent.substring(0, 80) + "..." : replyToContent}
                 </p>
               </div>
@@ -84,8 +84,8 @@ export default function Message({
             <p className="text-[14px] leading-6 text-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere break-all">
               {content}
             </p>
-            {/* Hover actions */}
-            <div className="ml-auto opacity-0 group-hover/message:opacity-100 transition-opacity duration-150 flex gap-1">
+            {/* Hover actions - always visible on mobile */}
+            <div className="ml-auto opacity-100 sm:opacity-0 sm:group-hover/message:opacity-100 transition-opacity duration-150 flex gap-1">
               <Button 
                 variant="ghost" 
                 size="icon" 
