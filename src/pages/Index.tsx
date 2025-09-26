@@ -46,7 +46,7 @@ const Index = () => {
   }
 
   return (
-    <div className="flex h-screen h-dvh bg-background overflow-hidden">
+    <div className="flex mobile-layout mobile-full-height bg-background">
       {/* Sidebar - Desktop */}
       <div className="hidden lg:block">
         <ChannelSidebar 

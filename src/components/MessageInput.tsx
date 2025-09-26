@@ -109,13 +109,13 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-[#36393f] flex-shrink-0">
+    <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-[#36393f] mobile-safe-bottom">
       <div className="flex gap-2 items-end">
         <Textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Share your thoughts anonymously..."
-          className="no-scrollbar resize-none min-h-[40px] h-[40px] bg-[#40444b] border-border text-foreground placeholder:text-muted-foreground py-2 rounded-md shadow-inner break-words overflow-wrap-anywhere"
+          className="no-scrollbar resize-none min-h-[40px] h-[40px] bg-[#40444b] border-border text-foreground placeholder:text-muted-foreground py-2 rounded-md shadow-inner break-words overflow-wrap-anywhere text-base"
           maxLength={350} // Updated to match spam prevention limit
           disabled={isLoading || isInCooldown()}
           style={{ height: 'auto' }}
@@ -129,7 +129,7 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
           type="submit"
           size="icon"
           disabled={!message.trim() || isLoading || isInCooldown()}
-          className="bg-primary text-primary-foreground hover:opacity-90 transition-opacity h-10 w-10 rounded-full"
+          className="bg-primary text-primary-foreground hover:opacity-90 transition-opacity h-10 w-10 rounded-full flex-shrink-0"
         >
           <Send className="w-4 h-4" />
         </Button>
