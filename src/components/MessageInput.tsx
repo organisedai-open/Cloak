@@ -109,7 +109,7 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-[#36393f]">
+    <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-[#36393f] flex-shrink-0">
       <div className="flex gap-2 items-end">
         <Textarea
           value={message}

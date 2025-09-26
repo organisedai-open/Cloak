@@ -101,8 +101,33 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
+  html, body {
     @apply bg-background text-foreground;
+    height: 100%;
+    overflow: hidden; /* Prevent body scroll on mobile */
+  }
+
+  #root {
+    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height for mobile */
+    overflow: hidden;
+  }
+
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
+    
+    #root {
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      position: relative;
+    }
   }
 
   /* Hide default scrollbars but keep scrolling */
