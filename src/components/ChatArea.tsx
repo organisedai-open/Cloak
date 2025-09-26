@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Hash, Heart, MessageCircle, Utensils, GraduationCap, Monitor, Building, Users, Globe } from "lucide-react";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
+import ReplyComposer from "./ReplyComposer";
 import { db } from "@/integrations/firebase/client";
 import {
   collection,
@@ -26,6 +27,9 @@ interface ChatMessage {
   content: string;
   created_at: string;
   reported: boolean;
+  replyToMessageId?: string;
+  replyToContent?: string;
+  replyToUsername?: string;
 }
 
 interface ChatAreaProps {
@@ -148,12 +152,44 @@ const formatChannelName = (channelId: string): string => {
 export default function ChatArea({ channel, username, sessionId }: ChatAreaProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [replyToMessage, setReplyToMessage] = useState<{
+    id: string;
+    content: string;
+    username: string;
+  } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const { toast } = useToast();
   const { isMobile, viewportHeight } = useMobileViewport();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleReply = (messageId: string, content: string, username: string) => {
+    setReplyToMessage({ id: messageId, content, username });
+  };
+
+  const handleCancelReply = () => {
+    setReplyToMessage(null);
+  };
+
+  const scrollToMessage = (messageId: string) => {
+    const messageElement = messageRefs.current[messageId];
+    if (messageElement) {
+      messageElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Add highlight effect
+      messageElement.classList.add("animate-pulse");
+      setTimeout(() => {
+        messageElement.classList.remove("animate-pulse");
+      }, 2000);
+    } else {
+      toast({
+        title: "Original message not found",
+        description: "The message you're replying to may have been removed.",
+        variant: "destructive",
+      });
+    }
   };
 
   useEffect(() => {
@@ -180,6 +216,9 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
               content: data.content,
               created_at: created,
               reported: Boolean(data.reported),
+              replyToMessageId: data.replyToMessageId || undefined,
+              replyToContent: data.replyToContent || undefined,
+              replyToUsername: data.replyToUsername || undefined,
               // pass through, we'll filter below
             } as ChatMessage & { expireAtMs?: number };
           })
@@ -221,6 +260,9 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
             content: data.content,
             created_at: created,
             reported: Boolean(data.reported),
+            replyToMessageId: data.replyToMessageId || undefined,
+            replyToContent: data.replyToContent || undefined,
+            replyToUsername: data.replyToUsername || undefined,
           } as ChatMessage & { expireAtMs?: number };
         })
         .filter((m: any) => (m.expireAtMs ? m.expireAtMs > now : true))
@@ -236,7 +278,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
     
     try {
       const expireAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
-      await addDoc(collection(db, 'messages'), {
+      const messageData: any = {
         channel,
         username,
         content,
@@ -244,7 +286,19 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
         expire_at: expireAt,
         reported: false,
         report_count: 0,
-      });
+      };
+
+      // Add reply data if replying to a message
+      if (replyToMessage) {
+        messageData.replyToMessageId = replyToMessage.id;
+        messageData.replyToContent = replyToMessage.content;
+        messageData.replyToUsername = replyToMessage.username;
+      }
+
+      await addDoc(collection(db, 'messages'), messageData);
+      
+      // Clear reply state after sending
+      setReplyToMessage(null);
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
@@ -282,9 +336,9 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
 
 
   return (
-    <div className="flex-1 flex flex-col mobile-content bg-[#2f3136]">
+    <div className="flex-1 flex flex-col bg-[#2f3136] mobile-content lg:flex-col">
       {/* Slim channel header */}
-      <div className="mobile-header mobile-safe-top px-4 py-2 border-b border-[#202225] bg-[#2f3136] relative z-40">
+      <div className="px-4 py-2 border-b border-[#202225] bg-[#2f3136] relative z-40 mobile-header mobile-safe-top lg:py-3">
         <div className="flex items-baseline justify-between">
           <div className="flex items-center">
             <button 
@@ -326,16 +380,25 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
             const prev = messages[idx - 1];
             const isGrouped = prev && prev.username === message.username && (new Date(message.created_at).getTime() - new Date(prev.created_at).getTime()) < 3 * 60 * 1000;
             return (
-              <Message
+              <div 
                 key={message.id}
-                id={message.id}
-                username={message.username}
-                content={message.content}
-                createdAt={message.created_at}
-                reported={message.reported}
-                onReport={reportMessage}
-                isGrouped={Boolean(isGrouped)}
-              />
+                ref={(el) => (messageRefs.current[message.id] = el)}
+              >
+                <Message
+                  id={message.id}
+                  username={message.username}
+                  content={message.content}
+                  createdAt={message.created_at}
+                  reported={message.reported}
+                  onReport={reportMessage}
+                  onReply={handleReply}
+                  onScrollToOriginal={scrollToMessage}
+                  isGrouped={Boolean(isGrouped)}
+                  replyToMessageId={message.replyToMessageId}
+                  replyToContent={message.replyToContent}
+                  replyToUsername={message.replyToUsername}
+                />
+              </div>
             );
           })
         )}
@@ -343,6 +406,13 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
       </div>
 
       <div className="mobile-input-area mobile-safe-bottom">
+        {replyToMessage && (
+          <ReplyComposer
+            replyToMessage={replyToMessage}
+            onCancel={handleCancelReply}
+            onScrollToOriginal={scrollToMessage}
+          />
+        )}
         <MessageInput onSendMessage={sendMessage} isLoading={isLoading} channel={channel} />
       </div>
     </div>

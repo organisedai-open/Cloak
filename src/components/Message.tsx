@@ -16,7 +16,12 @@ interface MessageProps {
   createdAt: string;
   reported?: boolean;
   onReport: (messageId: string) => void;
+  onReply?: (messageId: string, content: string, username: string) => void;
+  onScrollToOriginal?: (messageId: string) => void;
   isGrouped?: boolean;
+  replyToMessageId?: string;
+  replyToContent?: string;
+  replyToUsername?: string;
 }
 
 export default function Message({ 
@@ -26,7 +31,12 @@ export default function Message({
   createdAt, 
   reported,
   onReport,
+  onReply,
+  onScrollToOriginal,
   isGrouped = false,
+  replyToMessageId,
+  replyToContent,
+  replyToUsername,
 }: MessageProps) {
   const timeText = format(new Date(createdAt), "hh:mm a");
 
@@ -50,13 +60,39 @@ export default function Message({
               <span className="text-[11px] text-muted-foreground">{timeText}</span>
             </div>
           )}
+          
+          {/* Reply preview - above message body */}
+          {replyToMessageId && replyToContent && (
+            <div className="w-full mb-2">
+              <div 
+                className="bg-[#1F1C09] border-l-3 border-[#44BBA4] rounded-r-lg p-2 hover:bg-[#2A2A24] transition-colors cursor-pointer group"
+                onClick={() => onScrollToOriginal?.(replyToMessageId)}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-medium text-[#A0A0A0]">{replyToUsername || 'Anonymous'}</span>
+                  <span className="text-xs text-[#A0A0A0]">•</span>
+                  <span className="text-xs text-[#A0A0A0]">Replying to</span>
+                </div>
+                <p className="text-sm text-[#EDEDED] line-clamp-1 sm:line-clamp-2 group-hover:line-clamp-none transition-all">
+                  {replyToContent.length > 80 ? replyToContent.substring(0, 80) + "..." : replyToContent}
+                </p>
+              </div>
+            </div>
+          )}
+          
           <div className="flex items-start">
             <p className="text-[14px] leading-6 text-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere break-all">
               {content}
             </p>
             {/* Hover actions */}
             <div className="ml-auto opacity-0 group-hover/message:opacity-100 transition-opacity duration-150 flex gap-1">
-              <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground" title="Reply">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-7 w-7 text-muted-foreground hover:text-foreground" 
+                title="Reply"
+                onClick={() => onReply?.(id, content, username)}
+              >
                 <CornerUpLeft className="h-4 w-4" />
               </Button>
               <DropdownMenu>
