@@ -137,8 +137,8 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-sidebar-foreground">BITS Whispers</h1>
-            <p className="text-sm text-muted-foreground mt-1">Anonymous & Ephemeral</p>
+            <h1 className="text-2xl font-bold text-sidebar-foreground header-font">BITS Whispers</h1>
+            <p className="text-sm text-muted-foreground mt-1">Speak it, Don’t keep it!</p>
           </div>
           {onClose && (
             <Button
@@ -163,25 +163,25 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
                 key={channel.id}
                 onClick={() => onChannelSelect(channel.id)}
                 className={cn(
-                  "w-full text-left p-3 rounded-lg transition-all duration-200",
-                  "hover:bg-sidebar-accent group",
-                  selectedChannel === channel.id && "bg-sidebar-accent shadow-sm"
+                  "w-full text-left p-3 rounded-lg transition-all duration-300 group button-hover",
+                  "hover:bg-sidebar-accent hover:scale-[1.02] hover:shadow-soft",
+                  selectedChannel === channel.id && "bg-sidebar-accent shadow-soft scale-[1.02]"
                 )}
               >
                 <div className="flex items-center space-x-3">
                   <div className={cn(
-                    "p-2 rounded-md transition-colors",
+                    "p-2 rounded-md transition-all duration-300 group-hover:scale-110 button-hover",
                     selectedChannel === channel.id 
-                      ? "bg-primary text-primary-foreground" 
-                      : "bg-sidebar-accent text-muted-foreground group-hover:text-sidebar-foreground"
+                      ? "bg-primary text-primary-foreground shadow-glow" 
+                      : "bg-sidebar-accent text-muted-foreground group-hover:text-sidebar-foreground group-hover:shadow-glow"
                   )}>
                     {channel.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-medium text-sidebar-foreground">
+                    <h3 className="font-medium text-sidebar-foreground group-hover:text-primary transition-colors">
                       {channel.name}
                     </h3>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground group-hover:text-sidebar-foreground transition-colors">
                       {channel.description}
                     </p>
                   </div>
@@ -199,10 +199,10 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
             <div>
               <label className="text-xs text-muted-foreground mb-2 block">Select Category</label>
               <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground">
+                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
                   <SelectValue placeholder="Choose a category..." />
                 </SelectTrigger>
-                <SelectContent className="bg-sidebar border-sidebar-border z-[80]" position="popper" side="bottom" align="start" container={document.body}>
+                <SelectContent className="bg-sidebar border-sidebar-border z-[80]" position="popper" side="bottom" align="start">
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
                       <div className="flex items-center space-x-2">
@@ -220,10 +220,10 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
               <div>
                 <label className="text-xs text-muted-foreground mb-2 block">Select Channel</label>
                 <Select value={selectedSubChannel} onValueChange={handleSubChannelChange}>
-                  <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground">
+                  <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
                     <SelectValue placeholder="Choose a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-sidebar border-sidebar-border max-h-60 z-[80]" position="popper" side="bottom" align="start" container={document.body}>
+                  <SelectContent className="bg-sidebar border-sidebar-border max-h-60 z-[80]" position="popper" side="bottom" align="start">
                     {getCurrentChannels().map((channel) => (
                       <SelectItem key={channel.id} value={channel.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
                         <div className="flex items-center space-x-2">
@@ -241,7 +241,7 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
       </div>
 
       <div className="p-4 border-t border-sidebar-border">
-        <div className="bg-sidebar-accent rounded-lg p-3">
+        <div className="bg-sidebar-accent rounded-lg p-3 hover:shadow-soft transition-all duration-200">
           <p className="text-xs text-muted-foreground">
             Messages auto-delete after 24 hours. No personal data is stored.
           </p>

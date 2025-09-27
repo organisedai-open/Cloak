@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { AlertTriangle, MoreHorizontal, CornerUpLeft, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +22,18 @@ interface MessageProps {
   replyToMessageId?: string;
   replyToContent?: string;
   replyToUsername?: string;
+  isOwnMessage?: boolean;
 }
+
+// Generate consistent avatar color based on username
+const getAvatarColor = (username: string): string => {
+  const colors = ['avatar-green', 'avatar-blue', 'avatar-coral', 'avatar-purple'];
+  const hash = username.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  return colors[Math.abs(hash) % colors.length];
+};
 
 export default function Message({ 
   id, 
@@ -37,16 +48,18 @@ export default function Message({
   replyToMessageId,
   replyToContent,
   replyToUsername,
+  isOwnMessage = false,
 }: MessageProps) {
-  const timeText = format(new Date(createdAt), "hh:mm a");
+  const timeText = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+  const avatarColor = getAvatarColor(username);
 
   return (
-    <div className={cn("group/message px-2", reported && "opacity-50")}>
+    <div className={cn("group/message px-2 fade-in", reported && "opacity-50")}>
       <div className={cn("flex gap-3", isGrouped ? "mt-1" : "mt-4")}> 
         {/* Avatar */}
         <div className={cn("flex-shrink-0", isGrouped ? "invisible" : "visible")}> 
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-xs font-bold text-primary-foreground">
+          <div className={cn("w-8 h-8 rounded-full flex items-center justify-center hover-glow transition-all scale-in", avatarColor)}>
+            <span className="text-xs font-bold text-white">
               {username.charAt(0).toUpperCase()}
             </span>
           </div>
@@ -55,20 +68,20 @@ export default function Message({
         {/* Content */}
         <div className="min-w-0 flex-1">
           {!isGrouped && (
-            <div className="flex items-baseline gap-2">
-              <span className="text-sm font-semibold text-foreground">{username}</span>
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-sm font-semibold text-foreground header-font">{username}</span>
               <span className="text-[11px] text-muted-foreground">{timeText}</span>
             </div>
           )}
           
           {/* Reply preview - above message body */}
           {replyToMessageId && replyToContent && (
-            <div className="w-full mb-2">
+            <div className="w-full mb-3">
               <div 
-                className="bg-[#1F1C09] border-l-3 border-[#44BBA4] rounded-r-lg p-2 hover:bg-[#2A2A24] transition-colors cursor-pointer group"
+                className="reply-preview p-3 hover:bg-[#2A2A24] transition-colors cursor-pointer"
                 onClick={() => onScrollToOriginal?.(replyToMessageId)}
               >
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium text-[#A0A0A0]">{replyToUsername || 'Anonymous'}</span>
                   <span className="text-xs text-[#A0A0A0]">•</span>
                   <span className="text-xs text-[#A0A0A0]">Replying to</span>
@@ -80,16 +93,22 @@ export default function Message({
             </div>
           )}
           
-          <div className="flex items-start">
-            <p className="text-[14px] leading-6 text-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere break-all">
-              {content}
-            </p>
+          <div className="flex items-start gap-2">
+            <div className={cn(
+              "message-bubble p-3",
+              isOwnMessage ? "message-bubble-self" : "message-bubble-other"
+            )}>
+              <p className="text-[14px] leading-6 text-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                {content}
+              </p>
+            </div>
+            
             {/* Hover actions - always visible on mobile */}
-            <div className="ml-auto opacity-100 sm:opacity-0 sm:group-hover/message:opacity-100 transition-opacity duration-150 flex gap-1">
+            <div className="opacity-100 sm:opacity-0 sm:group-hover/message:opacity-100 transition-all duration-300 flex gap-1 flex-shrink-0">
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="h-7 w-7 text-muted-foreground hover:text-foreground" 
+                className="h-7 w-7 text-muted-foreground hover:text-foreground hover-glow button-hover slide-in" 
                 title="Reply"
                 onClick={() => onReply?.(id, content, username)}
               >
@@ -97,7 +116,7 @@ export default function Message({
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground">
+                  <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground hover-glow button-hover slide-in">
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>

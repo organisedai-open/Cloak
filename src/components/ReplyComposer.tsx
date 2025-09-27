@@ -22,13 +22,13 @@ export default function ReplyComposer({
     : replyToMessage.content;
 
   return (
-    <div className="bg-[#2A2A24] border-l-3 border-[#44BBA4] rounded-lg p-3 mx-4 mb-2 shadow-sm">
+    <div className="reply-preview p-3 mx-4 mb-2 shadow-sm slide-in">
       <div className="flex items-start gap-2">
         <div className="flex-shrink-0 mt-0.5">
           <CornerUpLeft className="w-4 h-4 text-[#44BBA4]" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-medium text-[#A0A0A0]">{replyToMessage.username}</span>
             <span className="text-xs text-[#A0A0A0]">•</span>
             <span className="text-xs text-[#A0A0A0]">Replying to</span>
@@ -44,7 +44,7 @@ export default function ReplyComposer({
           variant="ghost"
           size="icon"
           onClick={onCancel}
-          className="h-6 w-6 text-[#CFCFA8] hover:text-[#FDFFFC] flex-shrink-0"
+          className="h-6 w-6 text-[#CFCFA8] hover:text-[#FDFFFC] flex-shrink-0 hover-glow button-hover scale-in"
         >
           <X className="w-4 h-4" />
         </Button>

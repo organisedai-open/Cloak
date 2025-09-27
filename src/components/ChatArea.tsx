@@ -163,7 +163,16 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
   const { isMobile, viewportHeight } = useMobileViewport();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      // Use requestAnimationFrame for smoother scrolling
+      requestAnimationFrame(() => {
+        messagesEndRef.current?.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "end",
+          inline: "nearest"
+        });
+      });
+    }
   };
 
   const handleReply = (messageId: string, content: string, username: string) => {
@@ -177,8 +186,15 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
   const scrollToMessage = (messageId: string) => {
     const messageElement = messageRefs.current[messageId];
     if (messageElement) {
-      messageElement.scrollIntoView({ behavior: "smooth", block: "center" });
-      // Add highlight effect
+      // Use requestAnimationFrame for smoother scrolling
+      requestAnimationFrame(() => {
+        messageElement.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "center",
+          inline: "nearest"
+        });
+      });
+      // Add subtle highlight effect
       messageElement.classList.add("animate-pulse");
       setTimeout(() => {
         messageElement.classList.remove("animate-pulse");
@@ -336,7 +352,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
 
 
   return (
-    <div className="flex-1 flex flex-col bg-[#2f3136] mobile-content lg:flex-col">
+    <div className="flex-1 flex flex-col mobile-content lg:flex-col overflow-hidden" style={{ background: 'var(--background-gradient)' }}>
       {/* Slim channel header */}
       <div className="px-4 py-2 border-b border-[#202225] bg-[#2f3136] relative z-40 mobile-header mobile-safe-top lg:py-3">
         <div className="flex items-baseline justify-between">
@@ -365,7 +381,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
         </div>
       </div>
 
-      <div className="mobile-messages flex-1 overflow-y-auto no-scrollbar px-4 py-3">
+      <div className="mobile-messages flex-1 overflow-y-auto overflow-x-hidden no-scrollbar px-4 py-3">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
@@ -397,6 +413,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
                   replyToMessageId={message.replyToMessageId}
                   replyToContent={message.replyToContent}
                   replyToUsername={message.replyToUsername}
+                  isOwnMessage={message.username === username}
                 />
               </div>
             );
@@ -405,7 +422,7 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="mobile-input-area mobile-safe-bottom">
+      <div className="mobile-input-area mobile-safe-bottom overflow-hidden">
         {replyToMessage && (
           <ReplyComposer
             replyToMessage={replyToMessage}

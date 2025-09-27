@@ -8,8 +8,9 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* BITS Goa Anonymous Chat Colors */
+    /* Enhanced BITS Goa Anonymous Chat Colors */
     --background: 0 0% 12%; /* Dark Gray */
+    --background-gradient: linear-gradient(180deg, hsl(0 0% 12%), hsl(0 0% 15%)); /* Subtle gradient */
     --foreground: 61 100% 99%; /* Baby Powder */
     
     --card: 61 100% 99%; /* Baby Powder for cards */
@@ -30,6 +31,11 @@ All colors MUST be HSL.
     --accent: 169 44% 48%; /* Keppel */
     --accent-foreground: 0 0% 12%;
     
+    /* New secondary fun accent colors */
+    --accent-blue: 210 70% 60%; /* Pastel blue #6C9BD2 */
+    --accent-coral: 12 85% 65%; /* Coral #FF6F61 */
+    --accent-purple: 280 50% 60%; /* Purple accent */
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 61 100% 99%;
     
@@ -49,12 +55,32 @@ All colors MUST be HSL.
     --sidebar-border: 43 30% 20%;
     --sidebar-ring: 169 44% 48%;
     
-    /* Custom Design Tokens */
+    /* Enhanced Design Tokens */
     --gradient-primary: linear-gradient(135deg, hsl(169 44% 48%), hsl(169 44% 60%));
     --gradient-secondary: linear-gradient(135deg, hsl(299 60% 19%), hsl(299 60% 30%));
-    --shadow-soft: 0 10px 30px -10px hsl(43 63% 7% / 0.5);
+    --gradient-blue: linear-gradient(135deg, hsl(210 70% 60%), hsl(210 70% 70%));
+    --gradient-coral: linear-gradient(135deg, hsl(12 85% 65%), hsl(12 85% 75%));
+    
+    /* Enhanced shadows for depth */
+    --shadow-soft: 0 2px 6px rgba(0,0,0,0.3);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-strong: 0 8px 24px rgba(0,0,0,0.5);
     --shadow-glow: 0 0 40px hsl(169 44% 48% / 0.3);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-glow-blue: 0 0 20px hsl(210 70% 60% / 0.3);
+    --shadow-glow-coral: 0 0 20px hsl(12 85% 65% / 0.3);
+    
+    /* Enhanced smooth transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-fade: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slide: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-scale: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-glow: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Message bubble styles */
+    --message-self-bg: linear-gradient(135deg, hsl(169 44% 20%), hsl(169 44% 25%));
+    --message-other-bg: linear-gradient(135deg, hsl(0 0% 18%), hsl(0 0% 22%));
+    --message-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
 
   .dark {
@@ -100,9 +126,50 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Prevent any horizontal overflow at the root */
+  html, body, #root {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  /* Enable smooth scrolling globally */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Enhanced smooth scrolling for all scrollable elements */
+  * {
+    scroll-behavior: smooth;
+  }
+  
+  /* Modern typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  
+  /* Playful but minimal font for headers */
+  .header-font {
+    font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-weight: 500;
   }
 
   /* Hide default scrollbars but keep scrolling */
@@ -127,6 +194,201 @@ All colors MUST be HSL.
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Enhanced message bubble styles */
+  .message-bubble {
+    border-radius: 12px;
+    box-shadow: var(--message-shadow);
+    transition: var(--transition-smooth), var(--transition-glow);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+    transform: translateY(0);
+  }
+  
+  .message-bubble:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .message-bubble-self {
+    background: var(--message-self-bg);
+    border: 1px solid hsl(var(--primary) / 0.3);
+    max-width: 68%;
+  }
+  
+  .message-bubble-other {
+    background: var(--message-other-bg);
+    border: 1px solid hsl(var(--border));
+    max-width: 75%;
+  }
+  
+  /* Reply preview thread card style */
+  .reply-preview {
+    background: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 15%));
+    border-left: 3px solid hsl(var(--primary));
+    border-radius: 0 8px 8px 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  .reply-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to left, hsl(0 0% 12%), transparent);
+    pointer-events: none;
+  }
+  
+  /* Enhanced micro-animations */
+  .fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .bounce-in {
+    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .slide-in {
+    animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .hover-glow {
+    transition: var(--transition-glow), var(--transition-scale);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .hover-glow-blue:hover {
+    box-shadow: var(--shadow-glow-blue);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .hover-glow-coral:hover {
+    box-shadow: var(--shadow-glow-coral);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  /* Button hover animations */
+  .button-hover {
+    transition: var(--transition-scale), var(--transition-glow);
+  }
+  
+  .button-hover:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .button-hover:active {
+    transform: scale(0.95);
+  }
+  
+  /* Avatar color variations */
+  .avatar-blue {
+    background: linear-gradient(135deg, hsl(var(--accent-blue)), hsl(var(--accent-blue) / 0.8));
+  }
+  
+  .avatar-coral {
+    background: linear-gradient(135deg, hsl(var(--accent-coral)), hsl(var(--accent-coral) / 0.8));
+  }
+  
+  .avatar-purple {
+    background: linear-gradient(135deg, hsl(var(--accent-purple)), hsl(var(--accent-purple) / 0.8));
+  }
+  
+  .avatar-green {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  }
+  
+  /* Consistent spacing grid */
+  .spacing-1 { margin: 0.125rem; }
+  .spacing-2 { margin: 0.25rem; }
+  .spacing-4 { margin: 0.5rem; }
+  .spacing-8 { margin: 1rem; }
+  .spacing-12 { margin: 1.5rem; }
+  .spacing-16 { margin: 2rem; }
+}
+
+@keyframes fadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.95); 
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: translateY(5px) scale(0.98); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@keyframes bounceIn {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.3) rotate(-5deg); 
+  }
+  30% { 
+    opacity: 0.8; 
+    transform: scale(1.1) rotate(2deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(0.95) rotate(-1deg); 
+  }
+  70% { 
+    transform: scale(1.02) rotate(0.5deg); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+  }
+}
+
+@keyframes slideIn {
+  0% { 
+    opacity: 0; 
+    transform: translateX(-20px) scale(0.95); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateX(0) scale(1); 
+  }
+}
+
+@keyframes scaleIn {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.8); 
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.05); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1); 
   }
 }
 
@@ -175,6 +437,29 @@ All colors MUST be HSL.
   
   /* Prevent zoom on input focus for mobile */
   @media screen and (max-width: 768px) {
+    /* Ensure chat bubbles don't cause horizontal overflow on small screens */
+    .message-bubble-self,
+    .message-bubble-other {
+      max-width: 94% !important;
+    }
+    
+    /* Prevent horizontal overflow on mobile */
+    .mobile-layout {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+    
+    .mobile-content {
+      overflow-x: hidden;
+      width: 100%;
+    }
+    
+    .mobile-messages {
+      overflow-x: hidden;
+      width: 100%;
+    }
+    
     input[type="text"],
     input[type="email"],
     textarea {
@@ -212,6 +497,8 @@ All colors MUST be HSL.
       flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scroll-padding: 1rem;
     }
     
     /* Mobile sidebar overlay */
