@@ -428,8 +428,6 @@ All colors MUST be HSL.
   
   /* Mobile input area with safe bottom spacing */
   .mobile-input-area {
-    position: sticky;
-    bottom: 0;
     z-index: 50;
     background: hsl(var(--background));
     border-top: 1px solid hsl(var(--border));
@@ -576,8 +574,6 @@ All colors MUST be HSL.
     
     /* Mobile input area improvements */
     .mobile-input-area {
-      position: sticky;
-      bottom: 0;
       z-index: 50;
       background: hsl(var(--background));
       border-top: 1px solid hsl(var(--border));

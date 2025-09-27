@@ -78,7 +78,7 @@ export default function Message({
           {replyToMessageId && replyToContent && (
             <div className="w-full mb-3">
               <div 
-                className="reply-preview p-3 hover:bg-[#2A2A24] transition-colors cursor-pointer"
+                className="reply-preview p-3 hover:bg-[#2A2A24] transition-colors cursor-pointer group"
                 onClick={() => onScrollToOriginal?.(replyToMessageId)}
               >
                 <div className="flex items-center gap-2 mb-2">

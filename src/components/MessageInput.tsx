@@ -109,8 +109,8 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-[#36393f] mobile-safe-bottom overflow-hidden">
-      <div className="flex gap-2 items-end w-full">
+    <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border bg-[#36393f] overflow-hidden">
+      <div className="flex gap-3 items-center w-full">
         <Textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -121,7 +121,7 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
             }
           }}
           placeholder="Share your thoughts anonymously..."
-          className="no-scrollbar resize-none min-h-[40px] h-[40px] bg-[#40444b] border-border text-foreground placeholder:text-muted-foreground py-2 rounded-md shadow-inner break-words overflow-wrap-anywhere text-base flex-1 min-w-0"
+          className="no-scrollbar resize-none min-h-[44px] bg-[#40444b] border-border text-foreground placeholder:text-muted-foreground px-3 py-3 rounded-lg shadow-inner break-words overflow-wrap-anywhere text-base flex-1 min-w-0"
           maxLength={350} // Updated to match spam prevention limit
           disabled={isLoading || isInCooldown()}
           style={{ height: 'auto' }}
@@ -135,23 +135,20 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
           type="submit"
           size="icon"
           disabled={!message.trim() || isLoading || isInCooldown()}
-          className="bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300 h-10 w-10 rounded-full flex-shrink-0 button-hover hover:scale-110"
+          className="bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300 h-11 w-11 rounded-full flex-shrink-0 button-hover hover:scale-110"
         >
           <Send className="w-4 h-4" />
         </Button>
       </div>
-      <div className="flex justify-between mt-1 text-xs">
-        {message.length > 300 && (
-          <span className="text-muted-foreground">
-            {message.length}/350 characters
-          </span>
-        )}
-        {isInCooldown() && (
-          <span className="text-destructive">
+      
+      {/* Only show cooldown message when active */}
+      {isInCooldown() && (
+        <div className="mt-2 text-center">
+          <span className="text-xs text-destructive">
             Cooldown: {getRemainingCooldown()}s
           </span>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Error message */}
       {error && (
