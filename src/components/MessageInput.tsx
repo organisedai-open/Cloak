@@ -109,7 +109,7 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
   };
 
   return (
-    <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border bg-[#36393f] overflow-hidden">
+    <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border overflow-hidden" style={{ backgroundColor: '#2A2620' }}>
       <div className="flex gap-3 items-center w-full">
         <Textarea
           value={message}
@@ -121,10 +121,10 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
             }
           }}
           placeholder="Share your thoughts anonymously..."
-          className="no-scrollbar resize-none min-h-[44px] bg-[#40444b] border-border text-foreground placeholder:text-muted-foreground px-3 py-3 rounded-lg shadow-inner break-words overflow-wrap-anywhere text-base flex-1 min-w-0"
+          className="no-scrollbar resize-none min-h-[44px] border border-white/10 text-white placeholder:text-white/50 px-3 py-3 rounded-lg shadow-inner break-words overflow-wrap-anywhere text-base flex-1 min-w-0 focus:border-[#D97B2D] focus:ring-2 focus:ring-[#D97B2D]/20"
+          style={{ backgroundColor: '#2A2620' }}
           maxLength={350} // Updated to match spam prevention limit
           disabled={isLoading || isInCooldown()}
-          style={{ height: 'auto' }}
           onInput={(e) => {
             const target = e.target as HTMLTextAreaElement;
             target.style.height = 'auto';
@@ -135,7 +135,7 @@ export default function MessageInput({ onSendMessage, isLoading, channel = "gene
           type="submit"
           size="icon"
           disabled={!message.trim() || isLoading || isInCooldown()}
-          className="bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300 h-11 w-11 rounded-full flex-shrink-0 button-hover hover:scale-110"
+          className="bg-[#D97B2D] text-white hover:bg-[#B36224] transition-all duration-300 h-11 w-11 rounded-full flex-shrink-0 button-hover hover:scale-110"
         >
           <Send className="w-4 h-4" />
         </Button>

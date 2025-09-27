@@ -8,79 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Enhanced BITS Goa Anonymous Chat Colors */
-    --background: 0 0% 12%; /* Dark Gray */
-    --background-gradient: linear-gradient(180deg, hsl(0 0% 12%), hsl(0 0% 15%)); /* Subtle gradient */
-    --foreground: 61 100% 99%; /* Baby Powder */
+    /* Professional Elegant Chat UI Colors */
+    --background: 31 18% 5%; /* #1F1C09 - Main background */
+    --foreground: 60 100% 99%; /* #FDFFFC - Primary text */
     
-    --card: 61 100% 99%; /* Baby Powder for cards */
-    --card-foreground: 43 63% 7%; /* Dark text on light cards */
+    /* Section backgrounds for depth */
+    --sidebar-bg: 31 18% 12%; /* #242018 - Sidebar background (slightly lighter) */
+    --chat-area-bg: 31 18% 8%; /* #1B1810 - Chat area background */
+    --input-area-bg: 31 18% 15%; /* #2A2620 - Input area background */
     
-    --popover: 61 100% 99%;
-    --popover-foreground: 43 63% 7%;
+    --card: 31 18% 8%; /* Chat area background for cards */
+    --card-foreground: 60 100% 99%; /* #FDFFFC */
     
-    --primary: 169 44% 48%; /* Keppel accent */
-    --primary-foreground: 61 100% 99%;
+    --popover: 31 18% 8%;
+    --popover-foreground: 60 100% 99%;
     
-    --secondary: 299 60% 19%; /* Russian Violet */
-    --secondary-foreground: 61 100% 99%;
+    --primary: 25 65% 50%; /* #D97B2D - Copper orange (primary actions only) */
+    --primary-foreground: 60 100% 99%; /* #FDFFFC - Off-white text on copper */
+    --primary-hover: 25 65% 40%; /* #B36224 - Darker copper for hover */
     
-    --muted: 0 0% 18%; /* Muted dark gray */
-    --muted-foreground: 61 50% 80%;
+    --secondary: 31 18% 15%; /* Dark gray for secondary elements */
+    --secondary-foreground: 60 100% 99%;
     
-    --accent: 169 44% 48%; /* Keppel */
-    --accent-foreground: 0 0% 12%;
+    --muted: 31 18% 20%; /* Muted dark gray */
+    --muted-foreground: 0 0% 60%; /* Muted text */
     
-    /* New secondary fun accent colors */
-    --accent-blue: 210 70% 60%; /* Pastel blue #6C9BD2 */
-    --accent-coral: 12 85% 65%; /* Coral #FF6F61 */
-    --accent-purple: 280 50% 60%; /* Purple accent */
+    --accent: 25 65% 50%; /* #D97B2D - Copper orange accent (limited use) */
+    --accent-foreground: 60 100% 99%; /* #FDFFFC - Off-white text */
     
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 61 100% 99%;
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 0 0% 22%;
-    --input: 0 0% 18%;
-    --ring: 169 44% 48%;
+    --border: 0 0% 10%; /* Subtle borders */
+    --input: 31 18% 15%; /* Input background */
+    --ring: 25 65% 50%; /* #D97B2D - Copper focus ring */
 
     --radius: 0.75rem;
     
     /* Channel Sidebar */
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 61 100% 99%;
-    --sidebar-primary: 169 44% 48%;
-    --sidebar-primary-foreground: 61 100% 99%;
-    --sidebar-accent: 43 30% 15%;
-    --sidebar-accent-foreground: 61 100% 99%;
-    --sidebar-border: 43 30% 20%;
-    --sidebar-ring: 169 44% 48%;
+    --sidebar-background: 31 18% 12%; /* #242018 */
+    --sidebar-foreground: 60 100% 99%; /* #FDFFFC */
+    --sidebar-primary: 25 65% 50%; /* #D97B2D - Copper active channel */
+    --sidebar-primary-foreground: 60 100% 99%; /* #FDFFFC - Off-white text on copper */
+    --sidebar-accent: 31 18% 18%; /* Hover state */
+    --sidebar-accent-foreground: 60 100% 99%;
+    --sidebar-border: 0 0% 10%;
+    --sidebar-ring: 25 65% 50%; /* #D97B2D - Copper ring */
     
-    /* Enhanced Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(169 44% 48%), hsl(169 44% 60%));
-    --gradient-secondary: linear-gradient(135deg, hsl(299 60% 19%), hsl(299 60% 30%));
-    --gradient-blue: linear-gradient(135deg, hsl(210 70% 60%), hsl(210 70% 70%));
-    --gradient-coral: linear-gradient(135deg, hsl(12 85% 65%), hsl(12 85% 75%));
+    /* Message bubble colors - Professional & Elegant */
+    --message-self-bg: 25 65% 50%; /* #D97B2D - Copper orange for user messages */
+    --message-self-text: 60 100% 99%; /* #FDFFFC - Off-white text on copper */
+    --message-other-bg: 31 18% 15%; /* #2A2620 - Dark gray for others */
+    --message-other-text: 60 100% 99%; /* #FDFFFC - Off-white text */
+    --message-reply-bg: 31 18% 12%; /* Darker gray for replies */
+    --message-reply-accent: 25 65% 50%; /* #D97B2D - Thin copper left border */
+    
+    /* Text color variants */
+    --text-primary: 60 100% 99%; /* #FDFFFC - Primary text */
+    --text-secondary: 0 0% 50%; /* Muted text for timestamps */
+    --text-muted: 0 0% 40%; /* Placeholder text */
     
     /* Enhanced shadows for depth */
     --shadow-soft: 0 2px 6px rgba(0,0,0,0.3);
     --shadow-medium: 0 4px 12px rgba(0,0,0,0.4);
     --shadow-strong: 0 8px 24px rgba(0,0,0,0.5);
-    --shadow-glow: 0 0 40px hsl(169 44% 48% / 0.3);
-    --shadow-glow-blue: 0 0 20px hsl(210 70% 60% / 0.3);
-    --shadow-glow-coral: 0 0 20px hsl(12 85% 65% / 0.3);
+    --shadow-glow: 0 0 20px hsl(169 44% 48% / 0.3);
+    --shadow-message: 0 2px 8px rgba(0,0,0,0.2);
     
     /* Enhanced smooth transitions */
-    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --transition-fade: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slide: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-scale: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-glow: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Message bubble styles */
-    --message-self-bg: linear-gradient(135deg, hsl(169 44% 20%), hsl(169 44% 25%));
-    --message-other-bg: linear-gradient(135deg, hsl(0 0% 18%), hsl(0 0% 22%));
-    --message-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
 
   .dark {
@@ -196,11 +197,11 @@ All colors MUST be HSL.
     overflow: hidden;
   }
   
-  /* Enhanced message bubble styles */
+  /* Professional Elegant message bubble styles */
   .message-bubble {
-    border-radius: 12px;
-    box-shadow: var(--message-shadow);
-    transition: var(--transition-smooth), var(--transition-glow);
+    border-radius: 16px;
+    box-shadow: var(--shadow-message);
+    transition: var(--transition-smooth);
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
@@ -218,21 +219,23 @@ All colors MUST be HSL.
   }
   
   .message-bubble-self {
-    background: var(--message-self-bg);
-    border: 1px solid hsl(var(--primary) / 0.3);
+    background: hsl(var(--message-self-bg)); /* #D97B2D - Copper orange */
+    color: hsl(var(--message-self-text)); /* #FDFFFC - Off-white text */
+    border: none;
     max-width: 68%;
   }
   
   .message-bubble-other {
-    background: var(--message-other-bg);
+    background: hsl(var(--message-other-bg)); /* #2A2620 - Dark gray */
+    color: hsl(var(--message-other-text)); /* #FDFFFC - Off-white text */
     border: 1px solid hsl(var(--border));
     max-width: 75%;
   }
   
-  /* Reply preview thread card style */
+  /* Professional reply preview styles */
   .reply-preview {
-    background: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 15%));
-    border-left: 3px solid hsl(var(--primary));
+    background: hsl(var(--message-reply-bg)); /* Darker gray for replies */
+    border-left: 2px solid hsl(var(--message-reply-accent)); /* Thin copper left border */
     border-radius: 0 8px 8px 0;
     position: relative;
     overflow: hidden;
@@ -240,6 +243,7 @@ All colors MUST be HSL.
     display: block;
     word-wrap: break-word;
     word-break: break-word;
+    color: hsl(var(--text-primary));
   }
   
   .reply-preview::before {
@@ -249,7 +253,7 @@ All colors MUST be HSL.
     right: 0;
     bottom: 0;
     width: 20px;
-    background: linear-gradient(to left, hsl(0 0% 12%), transparent);
+    background: linear-gradient(to left, hsl(var(--message-reply-bg)), transparent);
     pointer-events: none;
   }
   

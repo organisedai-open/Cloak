@@ -54,7 +54,7 @@ export default function Message({
   const avatarColor = getAvatarColor(username);
 
   return (
-    <div className={cn("group/message px-2 fade-in", reported && "opacity-50")}>
+    <div className="group/message px-2 fade-in">
       <div className={cn("flex gap-3", isGrouped ? "mt-1" : "mt-4")}> 
         {/* Avatar */}
         <div className={cn("flex-shrink-0", isGrouped ? "invisible" : "visible")}> 
@@ -130,12 +130,6 @@ export default function Message({
             </div>
           </div>
 
-          {reported && (
-            <div className="mt-1 text-[11px] text-destructive flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" />
-              This message has been reported
-            </div>
-          )}
         </div>
       </div>
     </div>

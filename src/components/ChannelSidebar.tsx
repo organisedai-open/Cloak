@@ -133,13 +133,13 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
     return category ? category.channels : [];
   };
   return (
-    <div className="w-72 bg-sidebar border-r border-sidebar-border h-screen flex flex-col relative z-50 overflow-hidden mobile-safe-top mobile-safe-bottom">
+    <div className="w-72 border-r border-sidebar-border h-screen flex flex-col relative z-50 overflow-hidden mobile-safe-top mobile-safe-bottom" style={{ backgroundColor: '#242018' }}>
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-sidebar-foreground header-font">BITS Whispers</h1>
-            <p className="text-sm text-muted-foreground mt-1">Speak it, Don’t keep it!</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-white header-font">BITS Whispers</h1>
+          <p className="text-sm text-white/60 mt-1">Speak it, Don't keep it!</p>
+        </div>
           {onClose && (
             <Button
               variant="ghost"
@@ -156,7 +156,7 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
       <div className="flex-1 p-4 space-y-6 overflow-y-auto scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent">
         {/* Original Channels Section */}
         <div>
-          <h3 className="text-sm font-semibold text-sidebar-foreground mb-3">Main Channels</h3>
+          <h3 className="text-sm font-semibold text-white mb-3">Main Channels</h3>
           <div className="space-y-2">
             {originalChannels.map((channel) => (
               <button
@@ -164,24 +164,36 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
                 onClick={() => onChannelSelect(channel.id)}
                 className={cn(
                   "w-full text-left p-3 rounded-lg transition-all duration-300 group button-hover",
-                  "hover:bg-sidebar-accent hover:scale-[1.02] hover:shadow-soft",
-                  selectedChannel === channel.id && "bg-sidebar-accent shadow-soft scale-[1.02]"
+                  "hover:scale-[1.02] hover:shadow-soft",
+                  selectedChannel === channel.id 
+                    ? "bg-[#D97B2D] text-[#FDFFFC] shadow-soft scale-[1.02]" 
+                    : "hover:bg-white/5"
                 )}
               >
                 <div className="flex items-center space-x-3">
                   <div className={cn(
                     "p-2 rounded-md transition-all duration-300 group-hover:scale-110 button-hover",
                     selectedChannel === channel.id 
-                      ? "bg-primary text-primary-foreground shadow-glow" 
-                      : "bg-sidebar-accent text-muted-foreground group-hover:text-sidebar-foreground group-hover:shadow-glow"
+                      ? "bg-[#B36224] text-[#FDFFFC] shadow-glow" 
+                      : "bg-white/10 text-white/60 group-hover:text-white group-hover:shadow-glow"
                   )}>
                     {channel.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-medium text-sidebar-foreground group-hover:text-primary transition-colors">
+                    <h3 className={cn(
+                      "font-medium transition-colors",
+                      selectedChannel === channel.id 
+                        ? "text-[#FDFFFC]" 
+                        : "text-white/90 group-hover:text-white"
+                    )}>
                       {channel.name}
                     </h3>
-                    <p className="text-xs text-muted-foreground group-hover:text-sidebar-foreground transition-colors">
+                    <p className={cn(
+                      "text-xs transition-colors",
+                      selectedChannel === channel.id 
+                        ? "text-[#FDFFFC]/70" 
+                        : "text-white/50 group-hover:text-white/70"
+                    )}>
                       {channel.description}
                     </p>
                   </div>
@@ -193,21 +205,21 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
 
         {/* Category Selection */}
         <div>
-          <h3 className="text-sm font-semibold text-sidebar-foreground mb-3">Location Channels</h3>
+          <h3 className="text-sm font-semibold text-white mb-3">Location Channels</h3>
           <div className="space-y-4">
             {/* Category Dropdown */}
             <div>
-              <label className="text-xs text-muted-foreground mb-2 block">Select Category</label>
+              <label className="text-xs text-white/60 mb-2 block">Select Category</label>
               <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
+                <SelectTrigger className="w-full bg-white/5 border-white/10 hover:bg-white/10 text-white hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
                   <SelectValue placeholder="Choose a category..." />
                 </SelectTrigger>
-                <SelectContent className="bg-sidebar border-sidebar-border z-[80]" position="popper" side="bottom" align="start">
+                <SelectContent className="bg-[#242018] border-white/10 z-[80]" position="popper" side="bottom" align="start">
                   {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
+                    <SelectItem key={category.id} value={category.id} className="hover:bg-white/5 text-white">
                       <div className="flex items-center space-x-2">
                         {category.icon}
-                        <span className="text-sidebar-foreground">{category.name}</span>
+                        <span className="text-white">{category.name}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -218,17 +230,17 @@ export default function ChannelSidebar({ selectedChannel, onChannelSelect, onClo
             {/* Channel Dropdown */}
             {selectedCategory && (
               <div>
-                <label className="text-xs text-muted-foreground mb-2 block">Select Channel</label>
+                <label className="text-xs text-white/60 mb-2 block">Select Channel</label>
                 <Select value={selectedSubChannel} onValueChange={handleSubChannelChange}>
-                  <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border hover:bg-sidebar-accent/80 text-sidebar-foreground hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
+                  <SelectTrigger className="w-full bg-white/5 border-white/10 hover:bg-white/10 text-white hover:scale-[1.02] hover:shadow-soft transition-all duration-300 button-hover">
                     <SelectValue placeholder="Choose a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-sidebar border-sidebar-border max-h-60 z-[80]" position="popper" side="bottom" align="start">
+                  <SelectContent className="bg-[#242018] border-white/10 max-h-60 z-[80]" position="popper" side="bottom" align="start">
                     {getCurrentChannels().map((channel) => (
-                      <SelectItem key={channel.id} value={channel.id} className="hover:bg-sidebar-accent text-sidebar-foreground">
+                      <SelectItem key={channel.id} value={channel.id} className="hover:bg-white/5 text-white">
                         <div className="flex items-center space-x-2">
                           {channel.icon}
-                          <span className="text-sidebar-foreground">{channel.name}</span>
+                          <span className="text-white">{channel.name}</span>
                         </div>
                       </SelectItem>
                     ))}

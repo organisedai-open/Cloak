@@ -352,13 +352,13 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
 
 
   return (
-    <div className="flex-1 flex flex-col mobile-content lg:flex-col overflow-hidden" style={{ background: 'var(--background-gradient)' }}>
+    <div className="flex-1 flex flex-col mobile-content lg:flex-col overflow-hidden" style={{ backgroundColor: '#1B1810' }}>
       {/* Slim channel header */}
-      <div className="px-4 py-2 border-b border-[#202225] bg-[#2f3136] relative z-40 mobile-header mobile-safe-top lg:py-3">
+      <div className="px-4 py-2 border-b border-border relative z-40 mobile-header mobile-safe-top lg:py-3" style={{ backgroundColor: '#2A2620' }}>
         <div className="flex items-baseline justify-between">
           <div className="flex items-center">
             <button 
-              className="lg:hidden mr-3 text-[#b9bbbe] hover:text-[#dcddde]"
+              className="lg:hidden mr-3 text-white/60 hover:text-white/90"
               onClick={() => window.dispatchEvent(new CustomEvent('toggle-sidebar'))}
               aria-label="Toggle sidebar"
             >
@@ -369,11 +369,11 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
               </svg>
             </button>
             <div>
-              <div className="text-[15px] font-semibold text-[#dcddde] flex items-center">
+              <div className="text-[15px] font-semibold text-white flex items-center">
                 {channelIcons[channel as keyof typeof channelIcons] || <Hash className="w-5 h-5" />}
                 <span className="ml-2">{formatChannelName(channel)}</span>
               </div>
-              <div className="text-[12px] text-[#b9bbbe]">
+              <div className="text-[12px] text-white/50">
                 {channelDescriptions[channel as keyof typeof channelDescriptions] || "Channel discussion"}
               </div>
             </div>
@@ -385,8 +385,8 @@ export default function ChatArea({ channel, username, sessionId }: ChatAreaProps
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <p className="text-[#b9bbbe] mb-2">No messages yet</p>
-              <p className="text-sm text-[#b9bbbe]">
+              <p className="text-white/50 mb-2">No messages yet</p>
+              <p className="text-sm text-white/50">
                 Be the first to share something!
               </p>
             </div>
